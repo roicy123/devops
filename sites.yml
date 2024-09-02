@@ -1,0 +1,12 @@
+---
+- name: Configure web servers
+  hosts: all
+  become: yes
+  roles:
+    - webserver
+  vars:
+    my_items:
+      - Item 1
+      - Item 2
+      - Item 3
+
