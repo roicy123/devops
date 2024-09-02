@@ -1,12 +1,6 @@
 ---
-- name: Configure web servers
-  hosts: all
-  become: yes
+- hosts: webservers
   roles:
-    - webserver
-  vars:
-    my_items:
-      - Item 1
-      - Item 2
-      - Item 3
-
+    - role: webserver
+      vars:
+        webserver_port: 8080
