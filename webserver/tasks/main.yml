@@ -1,0 +1,25 @@
+---
+- name: Install Apache web server
+  apt:
+    name: "{{ webserver_service_name }}"
+    state: present
+  notify: restart apache
+
+- name: Create the document root directory
+  file:
+    path: "{{ webserver_document_root }}"
+    state: directory
+    owner: "{{ webserver_user }}"
+    group: "{{ webserver_user }}"
+
+- name: Deploy web server configuration
+  template:
+    src: apache.conf.j2
+    dest: /etc/apache2/sites-available/000-default.conf
+  notify: reload apache
+
+- name: Ensure Apache is running and enabled
+  service:
+    name: "{{ webserver_service_name }}"
+    state: started
+    enabled: true
