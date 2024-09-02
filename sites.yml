@@ -1,25 +1,6 @@
-- name: Configure webserver
-  hosts: webservers
-  become: yes
+---
+- hosts: all
   roles:
-    - webserver
-
-- name: Gather facts and perform tasks based on facts
-  hosts: webservers
-  become: yes
-  tasks:
-    - name: Gather facts about the system
-      setup:
-
-    - name: Print some facts about the system
-      debug:
-        msg: |
-          CPU Model: {{ ansible_processor[0] }}
-          Memory: {{ ansible_memory_mb.real.total }} MB
-
-    - name: Create directories for each mount point
-      file:
-        path: "{{ item.mount }}"
-        state: directory
-      loop: "{{ ansible_mounts }}"
-      when: item.fstype == 'ext4' 
+    - role: webserver
+      vars:
+        webserver_port: 8080
